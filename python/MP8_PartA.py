@@ -4,6 +4,9 @@ from pyspark.sql.types import StructField
 from pyspark.sql.types import StringType, IntegerType
 from pyspark.sql import SparkSession
 
+from pyspark.sql.functions import col
+
+# TODO:
 # import urllib3 # this violates the don't import libraries rule
 # import urllib # this doesn't but does it work w/ python3?
 # import urllib.request
@@ -21,20 +24,17 @@ spark = SparkSession.builder.getOrCreate()
 # Columns:
 # 0: word (string), 1: year (int), 2: frequency (int), 3: books (int)
 
+rdd = sc.textFile("gbooks")
+cols = rdd.map(lambda line: line.split("\t"))
 
 # Spark SQL - DataFrame API
 
-rdd = sc.textFile("gbooks")
+df = cols.toDF(["word", "year", "frequency", "books"])
 
-# ["word", "year", "frequency", "books"]
-schema = StructType([
-   StructField("word", StringType(), True),
-   StructField("year", IntegerType(), True),
-   StructField("frequency", IntegerType(), True),
-   StructField("books", IntegerType(), True)])
+df = df.withColumn("year", col("year").cast(IntegerType()))
+df = df.withColumn("frequency", col("frequency").cast(IntegerType()))
+df = df.withColumn("books", col("books").cast(IntegerType()))
 
-df = spark.createDataFrame(rdd, schema)
 
 df.printSchema()
-
 
