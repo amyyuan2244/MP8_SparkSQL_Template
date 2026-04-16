@@ -41,7 +41,7 @@ df = df.withColumn("books", col("books").cast(IntegerType()))
 # +--------+
 
 
-result_df = spark.sql("SELECT COUNT(*) FROM {df_param} WHERE 'word' == 'ATTRIBUTE'", df_param=df)
+result_df = spark.sql("SELECT COUNT(*) FROM {df_param} WHERE word = 'ATTRIBUTE'", df_param=df)
 
 result_df.show()
 
