@@ -48,7 +48,6 @@ df = df.withColumn("books", col("books").cast(IntegerType()))
 # +-------------+--------+
 # only showing top 3 rows
 
+result_df = spark.sql("SELECT word, COUNT(*) FROM {df_param} GROUP BY word ORDER BY COUNT(*) DESC, word DESC", df_param=df)
 
-result_df = spark.sql("SELECT word, COUNT(*) FROM {df_param} GROUP BY word, year, frequency, books ORDER BY COUNT(*) LIMIT 3", df_param=df)
-
-result_df.show()
+result_df.show(3)

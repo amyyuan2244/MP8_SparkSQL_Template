@@ -6,15 +6,9 @@ from pyspark.sql import SparkSession
 
 from pyspark.sql.functions import col
 
-# TODO:
-# import urllib3 # this violates the don't import libraries rule
-# import urllib # this doesn't but does it work w/ python3?
-# import urllib.request
-
 sc = SparkContext()
 spark = SparkSession.builder.getOrCreate()
 
-# url = "http://storage.googleapis.com/books/ngrams/books/googlebooks-eng-all-1gram-20120701-a.gz"
 
 ####
 # 1. Setup : Write a function to load it in an RDD & DataFrame
